@@ -5,6 +5,7 @@ import { MorganMiddleware } from '@nest-middlewares/morgan';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KnexModule } from 'nest-knexjs';
 import { DBUtil } from './helper/db-util';
+import { UserModule } from './api/user/user.module';
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { DBUtil } from './helper/db-util';
             },
             inject: [ConfigService],
         }),
+        UserModule,
     ],
     controllers: [AppController],
     providers: [AppService],

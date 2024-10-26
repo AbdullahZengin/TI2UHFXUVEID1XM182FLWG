@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Knex } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
 import { User } from './interfaces/user.interface';
@@ -57,5 +57,30 @@ export class UserService {
             pageSize,
             total: +totalCount.total,
         };
+    }
+
+    async getById(id: number) {
+        const user = await this.knex<User>('users')
+            .where('id', id)
+            .select(
+                'id',
+                'name',
+                'surname',
+                'email',
+                'phone',
+                'age',
+                'country',
+                'district',
+                'role',
+                this.knex.raw('created_at as "createdAt"'),
+                this.knex.raw('updated_at as "updatedAt"'),
+            )
+            .first<Omit<User, 'password'>>();
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        return user;
     }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetAllUserQueryDto } from './dto/get-all-user-query.dto';
 
@@ -13,5 +13,10 @@ export class UserController {
             pageSize,
             search,
         });
+    }
+
+    @Get(':id')
+    async getById(@Param('id', ParseIntPipe) id: number) {
+        return this.userService.getById(id);
     }
 }

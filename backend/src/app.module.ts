@@ -2,10 +2,35 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MorganMiddleware } from '@nest-middlewares/morgan';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { KnexModule } from 'nest-knexjs';
+import { DBUtil } from './helper/db-util';
 
 @Module({
-    imports: [ConfigModule.forRoot({ isGlobal: true })],
+    imports: [
+        ConfigModule.forRoot({ isGlobal: true }),
+        KnexModule.forRootAsync({
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) => {
+                const config =
+                    DBUtil.getPostgresConnectionOptions(configService);
+
+                return {
+                    config: {
+                        client: 'pg',
+                        connection: {
+                            host: config.host,
+                            user: config.user,
+                            port: config.port,
+                            password: config.password,
+                            database: config.database,
+                        },
+                    },
+                };
+            },
+            inject: [ConfigService],
+        }),
+    ],
     controllers: [AppController],
     providers: [AppService],
 })

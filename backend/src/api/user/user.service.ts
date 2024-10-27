@@ -1,11 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Knex } from 'knex';
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
+import { Knex, KnexTimeoutError } from 'knex';
 import { InjectConnection } from 'nest-knexjs';
 import { User } from './interfaces/user.interface';
+import { CreateUserDto } from './dto/create-user.dto';
+import { BcryptService } from 'src/common/bcrypt';
+import { SuccessResponse } from 'src/common/responses/success.response';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectConnection() private readonly knex: Knex) {}
+    constructor(
+        @InjectConnection() private readonly knex: Knex,
+        private bcryptService: BcryptService,
+    ) {}
 
     async getAll({
         page,
@@ -82,5 +92,34 @@ export class UserService {
         }
 
         return user;
+    }
+
+    async create(createUserDto: CreateUserDto) {
+        const userExists = await this.checkUserExistsByEmail(
+            createUserDto.email,
+        );
+
+        if (userExists) {
+            throw new ConflictException('User already exists');
+        }
+
+        const hashedPassword = await this.bcryptService.hash(
+            createUserDto.password,
+        );
+
+        await this.knex<User>('users').insert({
+            ...createUserDto,
+            password: hashedPassword,
+        });
+
+        return SuccessResponse;
+    }
+
+    async checkUserExistsByEmail(email: string) {
+        const user = await this.knex<User>('users')
+            .where('email', email)
+            .first();
+
+        return !!user;
     }
 }

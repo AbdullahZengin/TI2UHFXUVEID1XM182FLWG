@@ -10,6 +10,7 @@ import {
 import { UserService } from './user.service';
 import { GetAllUserQueryDto } from './dto/get-all-user-query.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -32,5 +33,10 @@ export class UserController {
     @Post('save')
     async save(@Body() createUserDto: CreateUserDto) {
         return this.userService.create(createUserDto);
+    }
+
+    @Post('update')
+    async update(@Body() updateUserDto: UpdateUserDto) {
+        return this.userService.update(updateUserDto);
     }
 }

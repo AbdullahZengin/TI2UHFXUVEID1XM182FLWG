@@ -9,6 +9,7 @@ import { User } from './interfaces/user.interface';
 import { CreateUserDto } from './dto/create-user.dto';
 import { BcryptService } from 'src/common/bcrypt';
 import { SuccessResponse } from 'src/common/responses/success.response';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -111,6 +112,43 @@ export class UserService {
             ...createUserDto,
             password: hashedPassword,
         });
+
+        return SuccessResponse;
+    }
+
+    async update(updateUserDto: UpdateUserDto) {
+        const user = await this.knex<User>('users')
+            .where('id', updateUserDto.id)
+            .first();
+
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
+        if (updateUserDto.email && updateUserDto.email !== user.email) {
+            const userExists = await this.checkUserExistsByEmail(
+                updateUserDto.email,
+            );
+
+            if (userExists) {
+                throw new ConflictException(
+                    'User already exists with this email',
+                );
+            }
+        }
+
+        if (updateUserDto.password) {
+            updateUserDto.password = await this.bcryptService.hash(
+                updateUserDto.password,
+            );
+        }
+
+        await this.knex('users')
+            .where('id', updateUserDto.id)
+            .update({
+                ...updateUserDto,
+                updated_at: new Date().toISOString(),
+            });
 
         return SuccessResponse;
     }

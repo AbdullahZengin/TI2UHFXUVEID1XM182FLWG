@@ -122,7 +122,6 @@ export const UserTable = () => {
                 <div
                     style={{
                         display: "flex",
-                        justifyContent: "space-between",
                         gap: "10px",
                     }}
                 >

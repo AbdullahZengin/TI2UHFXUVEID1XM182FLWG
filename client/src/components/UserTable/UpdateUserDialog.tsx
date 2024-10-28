@@ -18,7 +18,7 @@ export const UpdateUserDialog = ({
 }: UpdateUserDialogProps) => {
     const [form] = Form.useForm<TUpdateUser>();
 
-    const { data: user } = useGetUserById(userId);
+    const { data: user, isFetching } = useGetUserById(userId);
 
     useEffect(() => {
         if (isOpen && user) {
@@ -47,6 +47,7 @@ export const UpdateUserDialog = ({
             destroyOnClose={true}
             afterClose={() => form.resetFields()}
             confirmLoading={isPending}
+            loading={isFetching}
         >
             <Form
                 form={form}

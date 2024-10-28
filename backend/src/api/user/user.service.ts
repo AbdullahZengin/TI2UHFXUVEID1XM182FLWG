@@ -35,10 +35,14 @@ export class UserService {
                 .orWhere('surname', 'ilike', `%${search}%`);
         }
 
-        const totalCountQuery = dataQuery
+        const totalCount = await dataQuery
             .clone()
             .count<{ total: number }>('* as total')
             .first();
+
+        if (page > Math.ceil(+totalCount.total / pageSize)) {
+            page = 1;
+        }
 
         const offset = (page - 1) * pageSize;
         dataQuery.limit(pageSize).offset(offset);
@@ -57,10 +61,7 @@ export class UserService {
             this.knex.raw('updated_at as "updatedAt"'),
         );
 
-        const [totalCount, data] = await Promise.all([
-            totalCountQuery,
-            dataQuery,
-        ]);
+        const data = await dataQuery;
 
         return {
             data,

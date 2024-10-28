@@ -84,7 +84,7 @@ export const CreateUserDialog = ({
                             message:
                                 "Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 symbol",
                             pattern:
-                                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                                /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
                         },
                     ]}
                 >

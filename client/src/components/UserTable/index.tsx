@@ -101,9 +101,10 @@ export const UserTable = () => {
                     backgroundColor: "#1890ff",
                     display: "flex",
                     justifyContent: "center",
+                    color: "#fff",
                 }}
             >
-                User Management
+                <h2>User Management</h2>
             </Header>
 
             <Content

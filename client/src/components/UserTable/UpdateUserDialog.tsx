@@ -68,7 +68,7 @@ export const UpdateUserDialog = ({
                     name="name"
                     rules={[{ required: true, message: "Name is required" }]}
                 >
-                    <Input />
+                    <Input placeholder="Please enter your name" />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser>
@@ -76,7 +76,7 @@ export const UpdateUserDialog = ({
                     name="surname"
                     rules={[{ required: true, message: "Surname is required" }]}
                 >
-                    <Input />
+                    <Input placeholder="Please enter your surname" />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser>
@@ -90,7 +90,7 @@ export const UpdateUserDialog = ({
                         },
                     ]}
                 >
-                    <Input />
+                    <Input placeholder="Please enter your email address" />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser>
@@ -105,23 +105,33 @@ export const UpdateUserDialog = ({
                         },
                     ]}
                 >
-                    <Input.Password />
+                    <Input.Password placeholder="Please enter your strong password" />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser> label="Phone" name="phone">
-                    <Input />
+                    <Input placeholder="Enter your phone number" />
                 </Form.Item>
 
-                <Form.Item<TUpdateUser> label="Age" name="age">
-                    <InputNumber />
+                <Form.Item<TUpdateUser>
+                    label="Age"
+                    name="age"
+                    rules={[
+                        {
+                            min: 1,
+                            message: "Age must be greater than 0",
+                            type: "number",
+                        },
+                    ]}
+                >
+                    <InputNumber placeholder="Enter your age" />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser> label="Country" name="country">
-                    <Input />
+                    <Input placeholder="Enter your country" />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser> label="District" name="district">
-                    <Input />
+                    <Input placeholder="Enter your district" />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser>
@@ -129,7 +139,7 @@ export const UpdateUserDialog = ({
                     name="role"
                     rules={[{ required: true, message: "Role is required" }]}
                 >
-                    <Select>
+                    <Select placeholder="Select a role">
                         <Select.Option value="ADMIN">Admin</Select.Option>
                         <Select.Option value="USER">User</Select.Option>
                         <Select.Option value="MODERATOR">
@@ -137,6 +147,9 @@ export const UpdateUserDialog = ({
                         </Select.Option>
                     </Select>
                 </Form.Item>
+
+                {/* Hidden submit button when press enter */}
+                <button type="submit" hidden></button>
             </Form>
         </Modal>
     );

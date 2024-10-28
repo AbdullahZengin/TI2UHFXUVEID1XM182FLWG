@@ -48,7 +48,7 @@ export const CreateUserDialog = ({
                     name="name"
                     rules={[{ required: true, message: "Name is required" }]}
                 >
-                    <Input />
+                    <Input placeholder="Enter your name" />
                 </Form.Item>
 
                 <Form.Item<TCreateUser>
@@ -56,7 +56,7 @@ export const CreateUserDialog = ({
                     name="surname"
                     rules={[{ required: true, message: "Surname is required" }]}
                 >
-                    <Input />
+                    <Input placeholder="Enter your surname" />
                 </Form.Item>
 
                 <Form.Item<TCreateUser>
@@ -70,7 +70,7 @@ export const CreateUserDialog = ({
                         },
                     ]}
                 >
-                    <Input />
+                    <Input placeholder="Enter your email address" />
                 </Form.Item>
 
                 <Form.Item<TCreateUser>
@@ -86,23 +86,33 @@ export const CreateUserDialog = ({
                         },
                     ]}
                 >
-                    <Input.Password />
+                    <Input.Password placeholder="Enter your strong password" />
                 </Form.Item>
 
                 <Form.Item<TCreateUser> label="Phone" name="phone">
-                    <Input />
+                    <Input placeholder="Enter your phone number" />
                 </Form.Item>
 
-                <Form.Item<TCreateUser> label="Age" name="age">
-                    <InputNumber />
+                <Form.Item<TCreateUser>
+                    label="Age"
+                    name="age"
+                    rules={[
+                        {
+                            min: 1,
+                            message: "Age must be greater than 0",
+                            type: "number",
+                        },
+                    ]}
+                >
+                    <InputNumber placeholder="Enter your age" />
                 </Form.Item>
 
                 <Form.Item<TCreateUser> label="Country" name="country">
-                    <Input />
+                    <Input placeholder="Enter your country" />
                 </Form.Item>
 
                 <Form.Item<TCreateUser> label="District" name="district">
-                    <Input />
+                    <Input placeholder="Enter your district" />
                 </Form.Item>
 
                 <Form.Item<TCreateUser>
@@ -110,7 +120,7 @@ export const CreateUserDialog = ({
                     name="role"
                     rules={[{ required: true, message: "Role is required" }]}
                 >
-                    <Select>
+                    <Select placeholder="Select a role">
                         <Select.Option value="ADMIN">Admin</Select.Option>
                         <Select.Option value="USER">User</Select.Option>
                         <Select.Option value="MODERATOR">
@@ -118,6 +128,9 @@ export const CreateUserDialog = ({
                         </Select.Option>
                     </Select>
                 </Form.Item>
+
+                {/* Hidden submit button when press enter */}
+                <button type="submit" hidden></button>
             </Form>
         </Modal>
     );

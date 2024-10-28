@@ -106,7 +106,10 @@ export const CreateUserDialog = ({
                         },
                     ]}
                 >
-                    <InputNumber placeholder="Enter your age" />
+                    <InputNumber
+                        placeholder="Enter your age"
+                        style={{ width: "40%" }}
+                    />
                 </Form.Item>
 
                 <Form.Item<TCreateUser> label="Country" name="country">

@@ -125,7 +125,10 @@ export const UpdateUserDialog = ({
                         },
                     ]}
                 >
-                    <InputNumber placeholder="Enter your age" />
+                    <InputNumber
+                        placeholder="Enter your age"
+                        style={{ width: "40%" }}
+                    />
                 </Form.Item>
 
                 <Form.Item<TUpdateUser> label="Country" name="country">

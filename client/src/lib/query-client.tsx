@@ -1,5 +1,6 @@
 import { QueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export const queryClient = new QueryClient({
     defaultOptions: {
@@ -18,7 +19,7 @@ export const queryClient = new QueryClient({
                     message = (error.response?.data as any).message;
                 }
 
-                alert(message);
+                toast.error(message);
             },
         },
     },

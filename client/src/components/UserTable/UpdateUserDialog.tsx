@@ -3,6 +3,7 @@ import { TUpdateUser } from "../../models/user.model";
 import { useGetUserById, useUpdateUserMutation } from "../../services/users";
 import { useEffect } from "react";
 import { queryClient } from "../../lib/query-client";
+import { toast } from "react-toastify";
 
 type UpdateUserDialogProps = {
     isOpen: boolean;
@@ -28,8 +29,8 @@ export const UpdateUserDialog = ({
     const { mutateAsync: updateUserMutation, isPending } =
         useUpdateUserMutation({
             onSuccess: () => {
+                toast.success("User updated successfully");
                 onClose();
-                queryClient.invalidateQueries({ queryKey: ["users", userId] });
                 queryClient.invalidateQueries({ queryKey: ["users"] });
             },
         });

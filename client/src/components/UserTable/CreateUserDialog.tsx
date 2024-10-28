@@ -2,6 +2,7 @@ import { Form, Input, InputNumber, Modal, Select } from "antd";
 import { TCreateUser } from "../../models/user.model";
 import { useCreateUserMutation } from "../../services/users";
 import { queryClient } from "../../lib/query-client";
+import { toast } from "react-toastify";
 
 type CreateUserDialogProps = {
     isOpen: boolean;
@@ -17,6 +18,7 @@ export const CreateUserDialog = ({
     const { mutateAsync: createUserMutation, isPending } =
         useCreateUserMutation({
             onSuccess: () => {
+                toast.success("User created successfully");
                 onClose();
                 queryClient.invalidateQueries({ queryKey: ["users"] });
             },

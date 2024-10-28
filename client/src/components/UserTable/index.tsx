@@ -52,13 +52,13 @@ const columns: ColumnsType = [
         title: "Role",
         dataIndex: "role",
         key: "role",
-        width: "10%",
+        width: "7.5%",
     },
     {
         title: "Action",
         key: "action",
         render: () => <a>Edit</a>,
-        width: "5%",
+        width: "7.5%",
     },
 ];
 

@@ -2,6 +2,7 @@ import {
     Body,
     Controller,
     Get,
+    HttpCode,
     Param,
     ParseIntPipe,
     Post,
@@ -36,6 +37,7 @@ export class UserController {
     }
 
     @Post('update')
+    @HttpCode(200)
     async update(@Body() updateUserDto: UpdateUserDto) {
         return this.userService.update(updateUserDto);
     }

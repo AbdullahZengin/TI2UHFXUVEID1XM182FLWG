@@ -47,19 +47,21 @@ export class UserService {
         const offset = (page - 1) * pageSize;
         dataQuery.limit(pageSize).offset(offset);
 
-        dataQuery.select(
-            'id',
-            'name',
-            'surname',
-            'email',
-            'phone',
-            'age',
-            'country',
-            'district',
-            'role',
-            this.knex.raw('created_at as "createdAt"'),
-            this.knex.raw('updated_at as "updatedAt"'),
-        );
+        dataQuery
+            .select(
+                'id',
+                'name',
+                'surname',
+                'email',
+                'phone',
+                'age',
+                'country',
+                'district',
+                'role',
+                this.knex.raw('created_at as "createdAt"'),
+                this.knex.raw('updated_at as "updatedAt"'),
+            )
+            .orderBy('id', 'desc');
 
         const data = await dataQuery;
 

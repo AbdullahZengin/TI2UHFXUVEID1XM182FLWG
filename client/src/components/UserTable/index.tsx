@@ -4,6 +4,7 @@ import { ColumnsType } from "antd/es/table";
 import { useEffect, useState } from "react";
 import { useGetAllUsers } from "../../services/users";
 import { SearchBar } from "../SearchBar";
+import { CreateUserDialog } from "./CreateUserDialog";
 
 const columns: ColumnsType = [
     {
@@ -28,7 +29,7 @@ const columns: ColumnsType = [
         title: "Phone",
         dataIndex: "phone",
         key: "phone",
-        width: "15%",
+        width: "12.5%",
     },
     {
         title: "Age",
@@ -52,7 +53,7 @@ const columns: ColumnsType = [
         title: "Role",
         dataIndex: "role",
         key: "role",
-        width: "7.5%",
+        width: "10%",
     },
     {
         title: "Action",
@@ -66,6 +67,8 @@ export const UserTable = () => {
     const [pageSize, setPageSize] = useState<number>(10);
     const [page, setPage] = useState<number>(1);
     const [searchText, setSearchText] = useState<string | undefined>(undefined);
+
+    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
 
     const { data, isFetching } = useGetAllUsers(pageSize, page, searchText);
 
@@ -111,7 +114,16 @@ export const UserTable = () => {
                         }}
                     />
 
-                    <Button type="primary">Add User</Button>
+                    <Button
+                        type="primary"
+                        onClick={() => setIsDialogOpen(true)}
+                    >
+                        Add User
+                    </Button>
+                    <CreateUserDialog
+                        isOpen={isDialogOpen}
+                        onClose={() => setIsDialogOpen(false)}
+                    />
                 </div>
                 <Table
                     dataSource={data?.data || []}

@@ -1,4 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
 export const queryClient = new QueryClient({
     defaultOptions: {
@@ -9,6 +10,16 @@ export const queryClient = new QueryClient({
         },
         mutations: {
             retry: false,
+            onError: (error) => {
+                let message = "An error occurred";
+
+                if (error instanceof AxiosError) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    message = (error.response?.data as any).message;
+                }
+
+                alert(message);
+            },
         },
     },
 });

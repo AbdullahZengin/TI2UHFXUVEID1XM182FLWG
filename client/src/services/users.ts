@@ -4,10 +4,17 @@ import {
     useQuery,
 } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { GetAllUserResponse, TCreateUser } from "../models/user.model";
+import {
+    GetAllUserResponse,
+    TCreateUser,
+    TUpdateUser,
+    User,
+} from "../models/user.model";
 import { TSuccessResponse } from "../models/success-response.model";
 
 const baseURL = `http://localhost:3000/users`;
+
+//#region getAllUsers
 
 const getAllUsers = (pageSize = 10, page = 1, searchText: string | undefined) =>
     axios
@@ -26,6 +33,20 @@ export const useGetAllUsers = (
         queryFn: () => getAllUsers(pageSize, page, searchText),
     });
 
+//#endregion
+
+//#region getUserById
+const getUserById = (id: number) =>
+    axios.get<User>(`${baseURL}/${id}`).then((res) => res.data);
+
+export const useGetUserById = (id: number) =>
+    useQuery({
+        queryKey: ["users", id],
+        queryFn: () => getUserById(id),
+    });
+//#endregion
+
+//#region createUser
 const createUser = (user: TCreateUser) =>
     axios
         .post<TSuccessResponse>(`${baseURL}/save`, user)
@@ -36,6 +57,23 @@ export const useCreateUserMutation = (
 ) =>
     useMutation({
         mutationFn: (user: TCreateUser) => createUser(user),
+
+        ...options,
+    });
+
+//#endregion
+
+//#region updateUser
+const updateUser = (user: TUpdateUser) =>
+    axios
+        .post<TSuccessResponse>(`${baseURL}/update`, user)
+        .then((res) => res.data);
+
+export const useUpdateUserMutation = (
+    options?: UseMutationOptions<TSuccessResponse, AxiosError, TUpdateUser>
+) =>
+    useMutation({
+        mutationFn: (user: TUpdateUser) => updateUser(user),
 
         ...options,
     });

@@ -37,3 +37,16 @@ export type TCreateUser = {
     district?: string;
     role: string;
 };
+
+export type TUpdateUser = {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    password?: string;
+    phone?: string;
+    age?: number;
+    country?: string;
+    district?: string;
+    role: string;
+};

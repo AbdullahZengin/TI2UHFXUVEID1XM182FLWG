@@ -5,72 +5,87 @@ import { useEffect, useState } from "react";
 import { useGetAllUsers } from "../../services/users";
 import { SearchBar } from "../SearchBar";
 import { CreateUserDialog } from "./CreateUserDialog";
-
-const columns: ColumnsType = [
-    {
-        title: "Name",
-        dataIndex: "name",
-        key: "name",
-        width: "12.5%",
-    },
-    {
-        title: "Surname",
-        dataIndex: "surname",
-        key: "surname",
-        width: "12.5%",
-    },
-    {
-        title: "Email",
-        dataIndex: "email",
-        key: "email",
-        width: "20%",
-    },
-    {
-        title: "Phone",
-        dataIndex: "phone",
-        key: "phone",
-        width: "12.5%",
-    },
-    {
-        title: "Age",
-        dataIndex: "age",
-        key: "age",
-        width: "5%",
-    },
-    {
-        title: "Country",
-        dataIndex: "country",
-        key: "country",
-        width: "10%",
-    },
-    {
-        title: "District",
-        dataIndex: "district",
-        key: "district",
-        width: "10%",
-    },
-    {
-        title: "Role",
-        dataIndex: "role",
-        key: "role",
-        width: "10%",
-    },
-    {
-        title: "Action",
-        key: "action",
-        render: () => <a>Edit</a>,
-        width: "7.5%",
-    },
-];
+import { UpdateUserDialog } from "./UpdateUserDialog";
+import { User } from "../../models/user.model";
 
 export const UserTable = () => {
     const [pageSize, setPageSize] = useState<number>(10);
     const [page, setPage] = useState<number>(1);
     const [searchText, setSearchText] = useState<string | undefined>(undefined);
 
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+    const [isCreateDialogOpen, setCreateIsDialogOpen] =
+        useState<boolean>(false);
+    const [isUpdateDialogOpen, setIsUpdateDialogOpen] =
+        useState<boolean>(false);
+    const [selectedUserId, setSelectedUserId] = useState<number | undefined>(
+        undefined
+    );
 
     const { data, isFetching } = useGetAllUsers(pageSize, page, searchText);
+
+    const handleEdit = (userId: number) => {
+        setSelectedUserId(userId);
+        setIsUpdateDialogOpen(true);
+    };
+
+    const columns: ColumnsType<User> = [
+        {
+            title: "Name",
+            dataIndex: "name",
+            key: "name",
+            width: "12.5%",
+        },
+        {
+            title: "Surname",
+            dataIndex: "surname",
+            key: "surname",
+            width: "12.5%",
+        },
+        {
+            title: "Email",
+            dataIndex: "email",
+            key: "email",
+            width: "20%",
+        },
+        {
+            title: "Phone",
+            dataIndex: "phone",
+            key: "phone",
+            width: "12.5%",
+        },
+        {
+            title: "Age",
+            dataIndex: "age",
+            key: "age",
+            width: "5%",
+        },
+        {
+            title: "Country",
+            dataIndex: "country",
+            key: "country",
+            width: "10%",
+        },
+        {
+            title: "District",
+            dataIndex: "district",
+            key: "district",
+            width: "10%",
+        },
+        {
+            title: "Role",
+            dataIndex: "role",
+            key: "role",
+            width: "10%",
+        },
+        {
+            title: "Action",
+            key: "action",
+            render: (_, record) => (
+                <a onClick={() => handleEdit(record.id)}>Edit</a>
+            ),
+            width: "7.5%",
+        },
+    ];
 
     useEffect(() => {
         if (data?.data) {
@@ -116,13 +131,13 @@ export const UserTable = () => {
 
                     <Button
                         type="primary"
-                        onClick={() => setIsDialogOpen(true)}
+                        onClick={() => setCreateIsDialogOpen(true)}
                     >
                         Add User
                     </Button>
                     <CreateUserDialog
-                        isOpen={isDialogOpen}
-                        onClose={() => setIsDialogOpen(false)}
+                        isOpen={isCreateDialogOpen}
+                        onClose={() => setCreateIsDialogOpen(false)}
                     />
                 </div>
                 <Table
@@ -145,6 +160,14 @@ export const UserTable = () => {
                         setPageSize(pageSize);
                     }}
                 />
+
+                {selectedUserId && (
+                    <UpdateUserDialog
+                        isOpen={isUpdateDialogOpen}
+                        onClose={() => setIsUpdateDialogOpen(false)}
+                        userId={selectedUserId!}
+                    />
+                )}
             </Content>
         </Layout>
     );

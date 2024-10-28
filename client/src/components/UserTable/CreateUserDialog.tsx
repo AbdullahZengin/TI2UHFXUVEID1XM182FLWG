@@ -30,6 +30,7 @@ export const CreateUserDialog = ({
             onOk={() => {
                 form.submit();
             }}
+            okText="Create"
             destroyOnClose={true}
             afterClose={() => form.resetFields()}
             confirmLoading={isPending}
@@ -109,7 +110,7 @@ export const CreateUserDialog = ({
                     name="role"
                     rules={[{ required: true, message: "Role is required" }]}
                 >
-                    <Select onChange={(value) => console.log(value)}>
+                    <Select>
                         <Select.Option value="ADMIN">Admin</Select.Option>
                         <Select.Option value="USER">User</Select.Option>
                         <Select.Option value="MODERATOR">

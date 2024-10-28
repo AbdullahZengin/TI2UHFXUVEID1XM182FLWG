@@ -52,24 +52,28 @@ export const UserTable = () => {
             dataIndex: "phone",
             key: "phone",
             width: "12.5%",
+            render: (phone) => phone || "-",
         },
         {
             title: "Age",
             dataIndex: "age",
             key: "age",
             width: "5%",
+            render: (age) => age || "-",
         },
         {
             title: "Country",
             dataIndex: "country",
             key: "country",
             width: "10%",
+            render: (country) => country || "-",
         },
         {
             title: "District",
             dataIndex: "district",
             key: "district",
             width: "10%",
+            render: (district) => district || "-",
         },
         {
             title: "Role",

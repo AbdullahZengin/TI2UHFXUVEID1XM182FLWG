@@ -1,7 +1,7 @@
 import { Button, Layout, Pagination, Table } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import { ColumnsType } from "antd/es/table";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGetAllUsers } from "../../services/users";
 import { SearchBar } from "../SearchBar";
 import { CreateUserDialog } from "./CreateUserDialog";
@@ -91,13 +91,6 @@ export const UserTable = () => {
         },
     ];
 
-    useEffect(() => {
-        if (data?.data) {
-            setPage(data.page);
-            setPageSize(data.pageSize);
-        }
-    }, [data]);
-
     return (
         <Layout>
             <Header
@@ -129,6 +122,7 @@ export const UserTable = () => {
                         onSearch={(text) => {
                             if (text !== undefined && searchText !== text) {
                                 setSearchText(text);
+                                setPage(1);
                             }
                         }}
                     />
@@ -155,7 +149,8 @@ export const UserTable = () => {
 
                 <Pagination
                     align="end"
-                    defaultCurrent={page}
+                    defaultCurrent={1}
+                    current={page}
                     total={data?.total || 0}
                     pageSize={pageSize}
                     showSizeChanger={true}

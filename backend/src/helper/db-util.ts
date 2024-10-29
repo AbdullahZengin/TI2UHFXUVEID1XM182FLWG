@@ -10,7 +10,7 @@ export class DBUtil {
             user: configService.get<string>('POSTGRES_DB_USER', 'postgres'),
             port: configService.get<number>('POSTGRES_DB_PORT', 5432),
             password: configService.get<string>('POSTGRES_DB_PASSWORD','postgres'),
-            database: configService.get<string>('POSTGRES_DB_DATABASE','usersdot-case'),
+            database: configService.get<string>('POSTGRES_DB_DATABASE','study-case'),
         };
     }
 }

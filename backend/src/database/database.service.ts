@@ -1,8 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Client } from 'pg';
 import { ConfigService } from '@nestjs/config';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { mockUsers } from './data/mock-user.data';
 
 @Injectable()
@@ -10,7 +8,7 @@ export class DatabaseService implements OnModuleInit {
     private client: Client;
     private dbName: string = this.configService.get<string>(
         'POSTGRES_DB_DATABASE',
-        'usersdot-case',
+        'study-case',
     );
     private host: string = this.configService.get<string>(
         'POSTGRES_DB_HOST',

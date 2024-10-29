@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { KnexModule } from 'nest-knexjs';
 import { DBUtil } from './helper/db-util';
 import { UserModule } from './api/user/user.module';
+import { DatabaseModule } from './database/database.module';
 
 @Module({
     imports: [
@@ -32,6 +33,7 @@ import { UserModule } from './api/user/user.module';
             inject: [ConfigService],
         }),
         UserModule,
+        DatabaseModule,
     ],
     controllers: [AppController],
     providers: [AppService],
